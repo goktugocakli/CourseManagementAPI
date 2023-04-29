@@ -32,14 +32,13 @@ public class Student {
     @JsonIncludeProperties({"name"})
     private Department department;
 
-    public Student(String student_no, String first_name, String second_name, String surname, String e_mail, String password, Department department) {
+    public Student(String student_no, String first_name, String second_name, String surname, String e_mail, String password) {
         this.student_no = student_no;
         this.first_name = first_name;
         this.second_name = second_name;
         this.surname = surname;
         this.e_mail = e_mail;
         this.password = password;
-        this.department = department;
     }
 
     public Student() {

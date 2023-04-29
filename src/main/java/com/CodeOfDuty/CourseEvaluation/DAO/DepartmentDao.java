@@ -1,6 +1,7 @@
 package com.CodeOfDuty.CourseEvaluation.DAO;
 
 import com.CodeOfDuty.CourseEvaluation.model.Department;
+import com.CodeOfDuty.CourseEvaluation.model.Instructor;
 import jakarta.persistence.EntityManager;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class DepartmentDao implements IDepartmentDao{
     @Transactional
     public List<Department> getAll() {
         Session session = entityManager.unwrap(Session.class);
-        List<Department> departments = session.createQuery("from Department", Department.class).getResultList();
+        List<Department> departments = session.createQuery("select d from Department d", Department.class).getResultList();
         return departments;
     }
 
@@ -38,7 +39,19 @@ public class DepartmentDao implements IDepartmentDao{
     @Transactional
     public void update(Department department) {
         Session session = entityManager.unwrap(Session.class);
-        session.saveOrUpdate(department);
+        Instructor instructor = session.get(Instructor.class,department.getManager().getUser_name());
+        department.setManager(instructor);
+        session.merge(department);
+    }
+
+
+    @Transactional
+    public void update2(String dept_name, String manager) {
+        Session session = entityManager.unwrap(Session.class);
+        Department department = session.get(Department.class, dept_name);
+        Instructor instructor = session.get(Instructor.class,manager);
+        department.setManager(instructor);
+        session.merge(department);
     }
 
     @Override

@@ -3,16 +3,19 @@ package com.CodeOfDuty.CourseEvaluation.DAO;
 import com.CodeOfDuty.CourseEvaluation.model.Admin;
 import jakarta.persistence.EntityManager;
 import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class AdminDao implements IAdminDao{
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
+    @Autowired
     public AdminDao(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
@@ -21,7 +24,7 @@ public class AdminDao implements IAdminDao{
     @Transactional
     public List<Admin> getAll() {
         Session session = entityManager.unwrap(Session.class);
-        List<Admin> admins = session.createQuery("from Admin", Admin.class).getResultList();
+        List<Admin> admins = session.createQuery("select a from Admin a", Admin.class).getResultList();
         return admins;
     }
 
@@ -51,6 +54,20 @@ public class AdminDao implements IAdminDao{
     @Transactional
     public Admin getByUserName(String user_name) {
         Session session = entityManager.unwrap(Session.class);
-        return session.get(Admin.class, user_name);
+        Admin admin = session.get(Admin.class, user_name);
+        return admin;
     }
+
+    @Override
+    @Transactional
+    public String login(String user_name, String password) {
+        Session session = entityManager.unwrap(Session.class);
+        Optional<Admin> admin = Optional.ofNullable(session.get(Admin.class, user_name));
+        if(admin.isPresent() && admin.get().getPassword().equals(password)) {
+            return "admin-home";
+        }
+        return "/login";
+    }
+
+
 }

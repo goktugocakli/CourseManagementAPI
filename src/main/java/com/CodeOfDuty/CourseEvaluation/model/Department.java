@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "department")
 public class Department {
@@ -13,7 +15,7 @@ public class Department {
     private String name;
 
 
-    @ManyToOne(cascade=CascadeType.ALL)
+    @OneToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name="manager", referencedColumnName = "user_name")
     @JsonIncludeProperties({"user_name"})
     private Instructor manager;

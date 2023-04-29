@@ -2,6 +2,7 @@ package com.CodeOfDuty.CourseEvaluation.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import org.hibernate.engine.internal.Cascade;
 
 @Entity
 @Table(name="instructor")
@@ -25,19 +26,19 @@ public class Instructor {
     @Column(name = "password")
     private String password;
 
+
     @ManyToOne()
     @JoinColumn(name = "department", referencedColumnName = "department_name")
     @JsonIgnoreProperties("manager")
     private Department department;
 
-    public Instructor(String user_name, String first_name, String second_name, String surname, String e_mail, String password, Department department) {
+    public Instructor(String user_name, String first_name, String second_name, String surname, String e_mail, String password) {
         this.user_name = user_name;
         this.first_name = first_name;
         this.second_name = second_name;
         this.surname = surname;
         this.e_mail = e_mail;
         this.password = password;
-        this.department = department;
     }
 
     public Instructor() {
@@ -99,4 +100,5 @@ public class Instructor {
     public void setDepartment(Department department) {
         this.department = department;
     }
+
 }

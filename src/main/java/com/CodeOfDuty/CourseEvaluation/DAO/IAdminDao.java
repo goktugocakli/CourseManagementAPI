@@ -13,4 +13,6 @@ public interface IAdminDao {
     void delete(Admin admin);
     Admin getByUserName(String user_name);
 
+    String login(String user_name, String password);
+
 }

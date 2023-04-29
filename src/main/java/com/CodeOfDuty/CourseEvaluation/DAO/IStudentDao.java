@@ -10,5 +10,6 @@ public interface IStudentDao {
     void update(Student student);
     void delete(Student student);
     Student getByNo(String student_no);
+    String login(String user_name, String password);
 
 }

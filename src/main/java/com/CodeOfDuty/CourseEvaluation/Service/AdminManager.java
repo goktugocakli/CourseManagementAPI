@@ -2,6 +2,7 @@ package com.CodeOfDuty.CourseEvaluation.Service;
 
 import com.CodeOfDuty.CourseEvaluation.DAO.IAdminDao;
 import com.CodeOfDuty.CourseEvaluation.model.Admin;
+import com.CodeOfDuty.CourseEvaluation.model.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,5 +41,13 @@ public class AdminManager implements IAdminService {
     @Override
     public Admin getByUserName(String user_name) {
         return adminDao.getByUserName(user_name);
+    }
+
+    public boolean isValidAdmin(String user_name, String password) {
+        Admin admin = adminDao.getByUserName(user_name);
+        if (admin!=null && admin.getPassword().equals(password)){
+            return true;
+        }
+        return false;
     }
 }

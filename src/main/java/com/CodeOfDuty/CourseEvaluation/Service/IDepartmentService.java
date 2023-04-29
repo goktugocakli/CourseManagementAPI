@@ -11,6 +11,8 @@ public interface IDepartmentService {
 
     void update(Department department);
 
+    void update2(String dept_name, String manager);
+
     void delete(Department department);
     Department getByDepartmentName(String dept_name);
 

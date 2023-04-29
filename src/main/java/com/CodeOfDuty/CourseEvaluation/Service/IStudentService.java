@@ -11,4 +11,7 @@ public interface IStudentService {
     void delete(Student student);
 
     Student getByNo(String student_no);
+
+    boolean isValidStudent(String user_name, String password);
+
 }

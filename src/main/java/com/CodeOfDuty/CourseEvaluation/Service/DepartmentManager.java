@@ -32,6 +32,8 @@ public class DepartmentManager implements IDepartmentService{
         departmentDao.update(department);
     }
 
+    public void update2(String dept_name, String manager){departmentDao.update2(dept_name, manager);}
+
     @Override
     public void delete(Department department) {
         departmentDao.delete(department);

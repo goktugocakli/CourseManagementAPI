@@ -10,4 +10,7 @@ public interface IAdminService {
     void update(Admin admin);
     void delete(Admin admin);
     Admin getByUserName(String user_name);
+
+    boolean isValidAdmin(String user_name, String password);
+
 }

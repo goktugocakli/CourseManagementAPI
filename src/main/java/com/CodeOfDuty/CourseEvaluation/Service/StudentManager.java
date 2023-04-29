@@ -40,4 +40,13 @@ public class StudentManager implements IStudentService {
     public Student getByNo(String student_no) {
         return this.studentDao.getByNo(student_no);
     }
+
+    @Override
+    public boolean isValidStudent(String user_name, String password) {
+        Student student = studentDao.getByNo(user_name);
+        if (student!=null && student.getPassword().equals(password)){
+            return true;
+        }
+        return false;
+    }
 }

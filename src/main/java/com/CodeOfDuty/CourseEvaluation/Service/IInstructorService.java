@@ -12,4 +12,8 @@ public interface IInstructorService  {
     void delete(Instructor instructor);
     Instructor getByUserName(String user_name);
 
+    boolean isValidInstructor(String user_name, String password);
+
+    boolean isValidDepartmentManager(String user_name, String password);
+
 }
