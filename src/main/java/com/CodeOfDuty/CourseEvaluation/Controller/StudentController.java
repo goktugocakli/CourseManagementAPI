@@ -1,8 +1,9 @@
-package com.CodeOfDuty.CourseEvaluation.restApi;
+package com.CodeOfDuty.CourseEvaluation.Controller;
 
 import com.CodeOfDuty.CourseEvaluation.Service.IStudentService;
 import com.CodeOfDuty.CourseEvaluation.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,6 +34,7 @@ public class StudentController {
         this.studentService.update(student);
     }
 
+
     @DeleteMapping("/students/delete")
     public void delete(@RequestBody Student student){
         this.studentService.delete(student);
@@ -42,6 +44,21 @@ public class StudentController {
     @GetMapping("/students/{student_no}")
     public Student getbyNo(@PathVariable String student_no){
         return this.studentService.getByNo(student_no);
+    }
+
+    @GetMapping("/register")
+    public String showRegisterationPage() {
+        return "register page";
+    }
+
+    @PostMapping("/register/submit")
+    public String registerStudent(@RequestBody Student student){
+        try{
+            studentService.add(student);
+        }catch (DataIntegrityViolationException e) {
+            return e.getLocalizedMessage();
+        }
+        return student.toString();
     }
 
 

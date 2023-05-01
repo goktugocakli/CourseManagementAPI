@@ -1,4 +1,4 @@
-package com.CodeOfDuty.CourseEvaluation.restApi;
+package com.CodeOfDuty.CourseEvaluation.Controller;
 
 import com.CodeOfDuty.CourseEvaluation.Service.IInstructorService;
 import com.CodeOfDuty.CourseEvaluation.model.Instructor;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping()
 public class InstructorController {
     private IInstructorService instructorService;
 
@@ -42,6 +42,8 @@ public class InstructorController {
     public Instructor getByUserName(@PathVariable String user_name){
         return instructorService.getByUserName(user_name);
     }
+
+
 
 
 

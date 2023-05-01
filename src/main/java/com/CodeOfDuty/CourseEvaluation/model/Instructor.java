@@ -11,19 +11,19 @@ public class Instructor {
     @Column(name = "user_name")
     private String user_name;
 
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false)
     private String first_name;
 
     @Column(name = "second_name")
     private String second_name;
 
-    @Column(name = "surname")
+    @Column(name = "surname", nullable = false)
     private String surname;
 
-    @Column(name = "e_mail")
+    @Column(name = "e_mail", nullable = false, unique = true)
     private String e_mail;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
 

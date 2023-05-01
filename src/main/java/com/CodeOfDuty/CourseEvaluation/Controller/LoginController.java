@@ -1,4 +1,4 @@
-package com.CodeOfDuty.CourseEvaluation.restApi;
+package com.CodeOfDuty.CourseEvaluation.Controller;
 
 
 import com.CodeOfDuty.CourseEvaluation.Service.IAdminService;
@@ -7,52 +7,60 @@ import com.CodeOfDuty.CourseEvaluation.Service.IInstructorService;
 import com.CodeOfDuty.CourseEvaluation.Service.IStudentService;
 import com.CodeOfDuty.CourseEvaluation.model.LoginForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
-@RequestMapping()
+@RequestMapping("/login")
 public class LoginController {
 
-    @Autowired
+
     private IDepartmentService departmentService;
-    @Autowired
+
     private IInstructorService instructorService;
-    @Autowired
+
     private IStudentService studentService;
 
-    @Autowired
     private IAdminService adminService;
 
-
-    @GetMapping("/login")
-    public String login(){
-        return "Login Page";
+    @Autowired
+    public LoginController(IDepartmentService departmentService, IInstructorService instructorService, IStudentService studentService, IAdminService adminService) {
+        this.departmentService = departmentService;
+        this.instructorService = instructorService;
+        this.studentService = studentService;
+        this.adminService = adminService;
     }
 
-    @PostMapping("/login")
-    public String login(@RequestBody LoginForm login_info){
+    @GetMapping()
+    public String login(){
+        return "Login Page \n Username: \n Password:";
+    }
+
+    @PostMapping()
+    public RedirectView login(@RequestBody LoginForm login_info){
         String username=login_info.getUser_name();
         String password=login_info.getPassword();
+        System.out.println(studentService.isValidStudent(username,password));
         if (studentService.isValidStudent(username,password)) {
-            return "redirect:/student/home";
+            System.out.println("login basarili");
+            return new RedirectView("/home/student/" + username);
         }
         // Check if user is a department manager
         if (instructorService.isValidDepartmentManager(username, password)) {
-            return "redirect:/deptmanager/home";
+            return new RedirectView("/home/deptmanager/"+ username);
         }
         // Check if user is a teacher
         if (instructorService.isValidInstructor(username, password)) {
-            return "redirect:/instructor/home";
+            return new RedirectView("/home/instructor/" + username);
         }
         // Check if user is an admin
         if (adminService.isValidAdmin(username, password)) {
-            return "redirect:/admin/home";
+            return new RedirectView("/home/admin/"+username);
         }
-        return "Invalid user information";
+        return new RedirectView("/login");
     }
-
-
-
 
 
 }

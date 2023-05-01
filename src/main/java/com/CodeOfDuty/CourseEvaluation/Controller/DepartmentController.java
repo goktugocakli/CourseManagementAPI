@@ -1,4 +1,4 @@
-package com.CodeOfDuty.CourseEvaluation.restApi;
+package com.CodeOfDuty.CourseEvaluation.Controller;
 
 import com.CodeOfDuty.CourseEvaluation.Service.IDepartmentService;
 import com.CodeOfDuty.CourseEvaluation.model.Department;

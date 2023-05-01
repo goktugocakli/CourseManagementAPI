@@ -40,14 +40,13 @@ public class StudentDao implements IStudentDao {
         Department department = session.get(Department.class, student.getDepartment().getName());
         student.setDepartment(department);
         session.persist(student);
-
     }
 
     @Override
     @Transactional
     public void update(Student student) {
         Session session = entityManager.unwrap(Session.class);
-        session.saveOrUpdate(student);
+        session.merge(student);
     }
 
     @Override
@@ -76,4 +75,5 @@ public class StudentDao implements IStudentDao {
         }
         return "/login";
     }
+
 }

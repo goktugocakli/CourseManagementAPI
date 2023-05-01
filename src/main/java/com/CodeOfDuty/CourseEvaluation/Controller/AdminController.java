@@ -1,4 +1,4 @@
-package com.CodeOfDuty.CourseEvaluation.restApi;
+package com.CodeOfDuty.CourseEvaluation.Controller;
 
 import com.CodeOfDuty.CourseEvaluation.Service.IAdminService;
 import com.CodeOfDuty.CourseEvaluation.model.Admin;
@@ -41,7 +41,6 @@ public class AdminController {
     public Admin getByUserName(@PathVariable String user_name){
         return adminService.getByUserName(user_name);
     }
-
 
 
 }

@@ -30,14 +30,14 @@ public class InstructorDao implements IInstructorDao {
     @Transactional
     public void add(Instructor instructor) {
         Session session = entityManager.unwrap(Session.class);
-        session.saveOrUpdate(instructor);
+        session.persist(instructor);
     }
 
     @Override
     @Transactional
     public void update(Instructor instructor) {
         Session session = entityManager.unwrap(Session.class);
-        session.saveOrUpdate(instructor);
+        session.merge(instructor);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class InstructorDao implements IInstructorDao {
     public void delete(Instructor instructor) {
         Session session = entityManager.unwrap(Session.class);
         Instructor instructorToDelete = session.get(Instructor.class, instructor.getUser_name());
-        session.delete(instructorToDelete);
+        session.remove(instructorToDelete);
     }
 
     @Override

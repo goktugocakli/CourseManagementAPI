@@ -23,6 +23,7 @@ public class StudentManager implements IStudentService {
 
     @Override
     public void add(Student student) {
+
         this.studentDao.add(student);
     }
 
