@@ -1,8 +1,12 @@
 package com.CodeOfDuty.CourseEvaluation.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name="student")
@@ -29,8 +33,18 @@ public class Student {
 
     @ManyToOne()
     @JoinColumn(name = "department", referencedColumnName = "department_name")
-    @JsonIncludeProperties({"name"})
+    @JsonManagedReference
+    //@JsonIncludeProperties({"name"})
     private Department department;
+
+
+    @JsonBackReference
+    @ManyToMany
+    @JoinTable(
+            name = "course_student",
+            joinColumns = @JoinColumn(name = "student_no"),
+            inverseJoinColumns = {@JoinColumn(name = "code"), @JoinColumn(name = "semester"), @JoinColumn(name = "year")})
+    List<Course> courses;
 
     public Student(String student_no, String first_name, String second_name, String surname, String e_mail, String password) {
         this.student_no = student_no;
@@ -101,4 +115,14 @@ public class Student {
     public void setDepartment(Department department) {
         this.department = department;
     }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
+
+    public void addCourses(Course course){this.courses.add(course);}
 }

@@ -6,6 +6,7 @@ import com.CodeOfDuty.CourseEvaluation.Service.IDepartmentService;
 import com.CodeOfDuty.CourseEvaluation.Service.IInstructorService;
 import com.CodeOfDuty.CourseEvaluation.Service.IStudentService;
 import com.CodeOfDuty.CourseEvaluation.model.LoginForm;
+import com.CodeOfDuty.CourseEvaluation.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +43,6 @@ public class LoginController {
     public RedirectView login(@RequestBody LoginForm login_info){
         String username=login_info.getUser_name();
         String password=login_info.getPassword();
-        System.out.println(studentService.isValidStudent(username,password));
         if (studentService.isValidStudent(username,password)) {
             System.out.println("login basarili");
             return new RedirectView("/home/student/" + username);
@@ -61,6 +61,32 @@ public class LoginController {
         }
         return new RedirectView("/login");
     }
+
+    @GetMapping("/2")
+    public String loginForm(){
+        return "Login-form";
+    }
+
+    @PostMapping("/2")
+    public RedirectView loginFormSubmit(@RequestParam String username, @RequestParam String password, Model model){
+        if (studentService.isValidStudent(username,password)) {
+            Student student=studentService.getByNo(username);
+            model.addAttribute("student",student);
+            System.out.println(model.getAttribute("student"));
+            System.out.println("login basarili");
+            return new RedirectView("/login/home2");
+        }
+        model.addAttribute("error", "Invalid user or password");
+        return new RedirectView("/login/2");
+    }
+
+    @GetMapping("/home2")
+    public String showHome2Page(@ModelAttribute("student") Student student){
+        return "Home Page" + student.getStudent_no();
+    }
+
+
+
 
 
 }

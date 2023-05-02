@@ -1,6 +1,8 @@
 package com.CodeOfDuty.CourseEvaluation.Controller;
 
+import com.CodeOfDuty.CourseEvaluation.Service.ICourseService;
 import com.CodeOfDuty.CourseEvaluation.Service.IStudentService;
+import com.CodeOfDuty.CourseEvaluation.model.Course;
 import com.CodeOfDuty.CourseEvaluation.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -13,10 +15,12 @@ import java.util.List;
 public class StudentController {
 
     private IStudentService studentService;
+    private ICourseService courseService;
 
     @Autowired
-    public StudentController(IStudentService studentService) {
+    public StudentController(IStudentService studentService, ICourseService courseService) {
         this.studentService = studentService;
+        this.courseService=courseService;
     }
 
     @GetMapping("/students")
@@ -46,6 +50,17 @@ public class StudentController {
         return this.studentService.getByNo(student_no);
     }
 
+
+    @PostMapping("students/enrollcourse")
+    public void enrollCourse(@RequestParam String student_no, @RequestParam String course_id, @RequestParam String semester, @RequestParam int year){
+        Student student=studentService.getByNo(student_no);
+        Course course = courseService.getByCourse(course_id,semester,year);
+        studentService.enrollCourse(course,student);
+    }
+
+
+
+
     @GetMapping("/register")
     public String showRegisterationPage() {
         return "register page";
@@ -60,6 +75,8 @@ public class StudentController {
         }
         return student.toString();
     }
+
+
 
 
 

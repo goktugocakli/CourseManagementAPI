@@ -1,5 +1,6 @@
 package com.CodeOfDuty.CourseEvaluation.DAO;
 
+import com.CodeOfDuty.CourseEvaluation.model.Course;
 import com.CodeOfDuty.CourseEvaluation.model.Instructor;
 import jakarta.persistence.EntityManager;
 import org.hibernate.Session;
@@ -53,5 +54,13 @@ public class InstructorDao implements IInstructorDao {
     public Instructor getByUserName(String user_name) {
         Session session = entityManager.unwrap(Session.class);
         return session.get(Instructor.class, user_name);
+    }
+
+    @Override
+    @Transactional
+    public void teachCourse(Instructor instructor, Course course) {
+        Session session = entityManager.unwrap(Session.class);
+        instructor.addCourse(course);
+        session.merge(instructor);
     }
 }

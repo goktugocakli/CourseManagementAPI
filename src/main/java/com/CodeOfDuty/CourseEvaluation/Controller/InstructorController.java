@@ -43,6 +43,14 @@ public class InstructorController {
         return instructorService.getByUserName(user_name);
     }
 
+    @PostMapping("/instructors/teach")
+    public void teachCourse(@RequestParam String user_name,
+                            @RequestParam String course_id,
+                            @RequestParam String semester,
+                            @RequestParam int year){
+        instructorService.teachCourse(user_name, course_id,semester,year);
+    }
+
 
 
 
