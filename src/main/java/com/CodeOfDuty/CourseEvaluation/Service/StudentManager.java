@@ -1,6 +1,7 @@
 package com.CodeOfDuty.CourseEvaluation.Service;
 
 import com.CodeOfDuty.CourseEvaluation.DAO.IStudentDao;
+import com.CodeOfDuty.CourseEvaluation.model.Course;
 import com.CodeOfDuty.CourseEvaluation.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ public class StudentManager implements IStudentService {
 
     @Override
     public void add(Student student) {
+
         this.studentDao.add(student);
     }
 
@@ -48,5 +50,10 @@ public class StudentManager implements IStudentService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void enrollCourse(Course course, Student student) {
+        studentDao.enrollCourse(course,student);
     }
 }

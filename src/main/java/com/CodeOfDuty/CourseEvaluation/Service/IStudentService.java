@@ -1,5 +1,6 @@
 package com.CodeOfDuty.CourseEvaluation.Service;
 
+import com.CodeOfDuty.CourseEvaluation.model.Course;
 import com.CodeOfDuty.CourseEvaluation.model.Student;
 
 import java.util.List;
@@ -13,5 +14,7 @@ public interface IStudentService {
     Student getByNo(String student_no);
 
     boolean isValidStudent(String user_name, String password);
+
+    void enrollCourse(Course course, Student student);
 
 }

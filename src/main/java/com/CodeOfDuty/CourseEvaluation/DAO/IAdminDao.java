@@ -1,7 +1,7 @@
 package com.CodeOfDuty.CourseEvaluation.DAO;
 
 import com.CodeOfDuty.CourseEvaluation.model.Admin;
-import com.CodeOfDuty.CourseEvaluation.model.Instructor;
+import com.CodeOfDuty.CourseEvaluation.model.Course;
 
 import java.util.List;
 
@@ -12,6 +12,7 @@ public interface IAdminDao {
     void update(Admin admin);
     void delete(Admin admin);
     Admin getByUserName(String user_name);
+
 
     String login(String user_name, String password);
 

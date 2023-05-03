@@ -1,36 +1,50 @@
 package com.CodeOfDuty.CourseEvaluation.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name="student")
 public class Student {
 
     @Id
-    @Column(name = "student_no")
+    @Column(name = "student_no", nullable = false)
     private String student_no;
 
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false)
     private String first_name;
 
     @Column(name = "second_name")
     private String second_name;
 
-    @Column(name = "surname")
+    @Column(name = "surname", nullable = false)
     private String surname;
 
-    @Column(name = "e_mail")
+    @Column(name = "e_mail", nullable = false, unique = true)
     private String e_mail;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
     @ManyToOne()
     @JoinColumn(name = "department", referencedColumnName = "department_name")
-    @JsonIncludeProperties({"name"})
+    @JsonManagedReference
+    //@JsonIncludeProperties({"name"})
     private Department department;
+
+
+    @JsonBackReference
+    @ManyToMany
+    @JoinTable(
+            name = "course_student",
+            joinColumns = @JoinColumn(name = "student_no"),
+            inverseJoinColumns = {@JoinColumn(name = "code"), @JoinColumn(name = "semester"), @JoinColumn(name = "year")})
+    List<Course> courses;
 
     public Student(String student_no, String first_name, String second_name, String surname, String e_mail, String password) {
         this.student_no = student_no;
@@ -101,4 +115,14 @@ public class Student {
     public void setDepartment(Department department) {
         this.department = department;
     }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
+
+    public void addCourses(Course course){this.courses.add(course);}
 }

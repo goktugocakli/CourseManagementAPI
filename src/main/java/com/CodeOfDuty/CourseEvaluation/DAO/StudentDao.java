@@ -1,6 +1,7 @@
 package com.CodeOfDuty.CourseEvaluation.DAO;
 
 import com.CodeOfDuty.CourseEvaluation.model.Admin;
+import com.CodeOfDuty.CourseEvaluation.model.Course;
 import com.CodeOfDuty.CourseEvaluation.model.Department;
 import com.CodeOfDuty.CourseEvaluation.model.Student;
 import jakarta.persistence.EntityManager;
@@ -40,14 +41,13 @@ public class StudentDao implements IStudentDao {
         Department department = session.get(Department.class, student.getDepartment().getName());
         student.setDepartment(department);
         session.persist(student);
-
     }
 
     @Override
     @Transactional
     public void update(Student student) {
         Session session = entityManager.unwrap(Session.class);
-        session.saveOrUpdate(student);
+        session.merge(student);
     }
 
     @Override
@@ -76,4 +76,13 @@ public class StudentDao implements IStudentDao {
         }
         return "/login";
     }
+
+    @Override
+    @Transactional
+    public void enrollCourse(Course course, Student student) {
+        Session session = entityManager.unwrap(Session.class);
+        student.addCourses(course);
+        session.merge(student);
+    }
+
 }

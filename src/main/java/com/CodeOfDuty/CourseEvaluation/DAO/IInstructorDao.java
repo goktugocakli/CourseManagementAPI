@@ -1,5 +1,6 @@
 package com.CodeOfDuty.CourseEvaluation.DAO;
 
+import com.CodeOfDuty.CourseEvaluation.model.Course;
 import com.CodeOfDuty.CourseEvaluation.model.Instructor;
 import com.CodeOfDuty.CourseEvaluation.model.Student;
 
@@ -11,4 +12,6 @@ public interface IInstructorDao {
     void update(Instructor instructor);
     void delete(Instructor instructor);
     Instructor getByUserName(String user_name);
+
+    void teachCourse(Instructor instructor, Course course);
 }

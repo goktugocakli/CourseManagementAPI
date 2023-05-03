@@ -13,7 +13,7 @@ public class Admin {
     @Column(name = "user_name")
     private String user_name;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
     public Admin(String user_name, String password) {
