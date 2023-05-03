@@ -77,9 +77,12 @@ public class LoginController {
             response.put("type","admin");
             return ResponseEntity.ok(response);
         }
-        response.put("succes",false);
-        response.put("message","Invalid username or password.");
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        else{
+            response.put("succes",false);
+            response.put("message","Invalid username or password.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+
     }
 
 
