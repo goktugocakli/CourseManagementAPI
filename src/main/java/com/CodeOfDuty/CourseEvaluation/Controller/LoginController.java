@@ -8,10 +8,16 @@ import com.CodeOfDuty.CourseEvaluation.Service.IStudentService;
 import com.CodeOfDuty.CourseEvaluation.model.LoginForm;
 import com.CodeOfDuty.CourseEvaluation.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/login")
@@ -40,49 +46,40 @@ public class LoginController {
     }
 
     @PostMapping()
-    public RedirectView login(@RequestBody LoginForm login_info){
-        String username=login_info.getUser_name();
-        String password=login_info.getPassword();
+    public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> loginRequest){
+        Map<String,Object> response=new HashMap<>();
+        String username=loginRequest.get("username");
+        String password=loginRequest.get("password");
         if (studentService.isValidStudent(username,password)) {
-            System.out.println("login basarili");
-            return new RedirectView("/home/student/" + username);
+            response.put("success", true);
+            response.put("data",studentService.getByNo(username));
+            response.put("type","student");
+            return ResponseEntity.ok(response);
         }
         // Check if user is a department manager
-        if (instructorService.isValidDepartmentManager(username, password)) {
-            return new RedirectView("/home/deptmanager/"+ username);
+        else if (instructorService.isValidDepartmentManager(username, password)) {
+            response.put("success", true);
+            response.put("data",instructorService.getByUserName(username));
+            response.put("type","department manager");
+            return ResponseEntity.ok(response);
         }
         // Check if user is a teacher
-        if (instructorService.isValidInstructor(username, password)) {
-            return new RedirectView("/home/instructor/" + username);
+        else if (instructorService.isValidInstructor(username, password)) {
+            response.put("success", true);
+            response.put("data",instructorService.getByUserName(username));
+            response.put("type","instructor");
+            return ResponseEntity.ok(response);
         }
         // Check if user is an admin
-        if (adminService.isValidAdmin(username, password)) {
-            return new RedirectView("/home/admin/"+username);
+        else if(adminService.isValidAdmin(username, password)) {
+            response.put("success", true);
+            response.put("data",adminService.getByUserName(username));
+            response.put("type","admin");
+            return ResponseEntity.ok(response);
         }
-        return new RedirectView("/login");
-    }
-
-    @GetMapping("/2")
-    public String loginForm(){
-        return "Login-form";
-    }
-
-    @PostMapping("/2")
-    public RedirectView loginFormSubmit(@RequestParam String username, @RequestParam String password, Model model){
-        if (studentService.isValidStudent(username,password)) {
-            Student student=studentService.getByNo(username);
-            model.addAttribute("student",student);
-            System.out.println(model.getAttribute("student"));
-            System.out.println("login basarili");
-            return new RedirectView("/login/home2");
-        }
-        model.addAttribute("error", "Invalid user or password");
-        return new RedirectView("/login/2");
-    }
-
-    @GetMapping("/home2")
-    public String showHome2Page(@ModelAttribute("student") Student student){
-        return "Home Page" + student.getStudent_no();
+        response.put("succes",false);
+        response.put("message","Invalid username or password.");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
 
 

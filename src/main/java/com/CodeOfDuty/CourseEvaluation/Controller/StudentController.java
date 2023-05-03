@@ -58,9 +58,6 @@ public class StudentController {
         studentService.enrollCourse(course,student);
     }
 
-
-
-
     @GetMapping("/register")
     public String showRegisterationPage() {
         return "register page";
